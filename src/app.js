@@ -1,10 +1,10 @@
-const express= require("express")
-const cors= require("cors")
-
+const express = require("express")
+const cors = require("cors")
 const app = express();
 
 // Settings
 app.set("port", process.env.PORT || 3000);
+app.use(express.json());
 
 // Middlewares
 app.use(cors());
@@ -21,6 +21,8 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-// app.use("/api/products", productRoutes);
+app.use('/cargo',require('./routes/cargo.routes'));
+app.use('/user',require('./routes/user.routes'));
+app.use('/auth',require('./routes/auth.routes'));
 
-module.exports = app;
+module.exports = app;  

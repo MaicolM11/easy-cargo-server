@@ -1,5 +1,5 @@
-const Role  = require("./models/Role")
-const User = require("./models/User")
+const Role  = require("../models/Role")
+const User = require("../models/User")
 
 const createRoles = async () => {
   try {
