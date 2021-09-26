@@ -6,7 +6,6 @@ const createRoles = async () => {
     const count = await Role.estimatedDocumentCount();
     if (count > 0) return;
 
-
     const values = await Promise.all([
       new Role({ name: "conveyor" }).save(),
       new Role({ name: "provider" }).save(),
@@ -21,13 +20,13 @@ const createRoles = async () => {
 
 const createAdmin = async () => {
   const user = await User.findOne({ email: "admin@easycargo" });
-  const roles = await Role.find({ name: { $in: ["admin"] } });
+  const roles = await Role.find({ name: { $in: ["admin", "provider", "conveyor"] } });
 
   if (!user) {
     await User.create({
       username: "admin",
       email: "admin@easycargo",
-      password: "admin",
+      password: await User.encryptPass("admin"),
       roles: roles.map((role) => role._id),
     });
     console.log('Admin User Created!')

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
+const STATUS = ["OCUPADO", "DISPONIBLE"]
+
 const userSchema = mongoose.Schema(
     {
       username: {
@@ -21,6 +23,7 @@ const userSchema = mongoose.Schema(
           ref: "Role",
         },
       ],
+      status: String  
     },
     {
       timestamps: true,
@@ -38,4 +41,5 @@ userSchema.statics.comparePass = async (password, receivedPass) =>{
 }
 
 const User = mongoose.model('User', userSchema)
+
 module.exports = User;
