@@ -2,21 +2,26 @@ import Offer from "../models/Offer";
 import Contract from "../models/Contract";
 
 export const createCargoOffer = async (req, res) => {
-    const { provider,  description, origin, destination } = req.body
+    const { provider,  description, origin, destination, vehicle_type , weight, material, origin_address,
+        destination_address} = req.body
 
     if(!provider, !origin, !destination){
-        res.status(300).json({message: "Envie los campos requqridos"})
+        res.status(300).json({message: "Envie los campos requeridos"})
         return;
     } 
 
-    // sacar el provider del jwt
-    // mirar si el id es de un proveedor
+    // sacar el provider de la sesion
 
     const newOffer = new Offer({ 
-        provider: provider, 
-        description: description, 
-        origin: origin, 
-        destination: destination 
+        provider, 
+        description, 
+        origin, 
+        destination,
+        vehicle_type,
+        weight,
+        material,
+        origin_address,
+        destination_address 
     })
 
     const offerSaved = await newOffer.save(); 
@@ -48,6 +53,7 @@ export const acceptOffer = async (req, res) => {
     const { offerID } = req.params; 
     const { conveyor } = req.body; // de la sesion
 
+    // revisar que el transportador este disponible
     if(!offerID,  !conveyor){
         res.status(300).json({message: "Envie los campos requqridos"})
         return;

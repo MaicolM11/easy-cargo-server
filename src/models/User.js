@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
-const STATUS = ["OCUPADO", "DISPONIBLE"]
+export const CONVEYOR_STATUS = { AVAILABLE: 'AVAILABLE', BUSY: 'BUSY' }
+//export const VEHICLE_TYPE = {LONG_TRUCK: '', TRUCK, DOUBLE_TROOP, FOUR_HANDS_TRUCK }
 
 const userSchema = mongoose.Schema(
     {
@@ -17,13 +18,23 @@ const userSchema = mongoose.Schema(
         type: String,
         required: true,
       },
+    
       roles: [
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Role",
         },
       ],
-      status: String  
+
+      cc: String,
+      status: String,
+      description: String,
+      vehicle_type:String,
+      loading_capacity: Number,
+      nit: String,
+      company_name: String,
+      company_address: String
+
     },
     {
       timestamps: true,
@@ -40,6 +51,4 @@ userSchema.statics.comparePass = async (password, receivedPass) =>{
   return await bcrypt.compare(password, receivedPass);
 }
 
-const User = mongoose.model('User', userSchema)
-
-module.exports = User;
+export default mongoose.model('User', userSchema)

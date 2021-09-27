@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+export const ROLES = { CONVEYOR: "CONVEYOR", PROVIDER: "PROVIDER", ADMIN: "ADMIN" }
+
 const roleSchema = mongoose.Schema(
   {
     name: String,
@@ -9,6 +11,4 @@ const roleSchema = mongoose.Schema(
   }
 );
 
-const Role = mongoose.model('Role', roleSchema)
-
-module.exports = Role
+export default mongoose.model('Role', roleSchema)

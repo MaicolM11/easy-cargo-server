@@ -1,0 +1,49 @@
+basic url : http://localhost:3000
+
+
+
+/* crear transportador*/  url = /auth/register
+{
+    "username":"camionero27", 
+    "email":"comion@gmail", 
+    "password":"123", 
+    "rol": "conveyor",
+    "vehicle_type": "TRUCK", 
+    "loading_capacity": 1000,
+    "description": "Camionero de 80 años ",
+    "cc": 100291031
+}
+
+/* crear prov*/         url = /auth/register
+
+    {
+        "username":"proveedor90", 
+        "email":"proveedorsito3000@gmail", 
+        "password":"123", 
+        "rol": "provider",
+        "nit": "678enjkwueiro",
+        "company_name": "CemenYa",
+        "company_address": "Cra 1 Florida",
+        "description": "Empresa productora de cemento"
+    }
+
+
+/*Crear oferta*/        url = /offer
+{
+    "provider": "6150eff9fe662c81937e0776",
+    "origin":"TUNJA",
+    "destination": "BOGOTA",
+    "description": "para ya",
+    "vehicle_type": "TRUCK",
+    "weight": 750,
+    "material": "Papa y yuca",
+    "origin_address": "cra 5",
+    "destination_address": "cra 6"
+}
+
+
+/*Aceptar una oferta*/   url = /offer/{offerId}/accept
+
+{
+    "conveyor": "6150eff9fe662c81937e0776"
+}

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+export const OFFER_STATUS = {AVAILABLE: 'AVAILABLE', NO_AVAILABLE:''}
+
 const offerSchema = mongoose.Schema(
     {
         provider: {
@@ -11,16 +13,17 @@ const offerSchema = mongoose.Schema(
         description: String,
         
         status: {
-            type: String // DISPONIBLE O NO
+            type: String,
+            default: OFFER_STATUS.AVAILABLE
         },
 
-        origin: {
-            type: String
-        },
-
-        destination: {
-            type: String
-        }
+        origin: String,
+        destination: String,
+        vehicle_type: String,
+        weight: Number,
+        material: String,
+        origin_address:String,
+        destination_address: String
     },
     {
       versionKey: false,
@@ -28,6 +31,4 @@ const offerSchema = mongoose.Schema(
     }
 );
 
-const Offer = mongoose.model('Offer', offerSchema)
-
-module.exports = Offer
+export default mongoose.model('Offer', offerSchema)

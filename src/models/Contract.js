@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+export const CONTRACT_STATUS = { ACTIVE: 'ACTIVE', CANCELLED: 'CANCELLED', FINISH: 'FINISH', WAITING: 'WAITING'}
+
 const contractSchema = mongoose.Schema(
   {
       offer: {
@@ -13,7 +15,8 @@ const contractSchema = mongoose.Schema(
       },
 
       status: {
-          type: String  // ACTIVO - CANCELADO - TERMINADO
+          type: String,
+          default: CONTRACT_STATUS.WAITING
       }
 
   },
@@ -23,6 +26,4 @@ const contractSchema = mongoose.Schema(
     }
 );
 
-const Contract = mongoose.model('contract', contractSchema)
-
-module.exports = Contract
+export default mongoose.model('contract', contractSchema)

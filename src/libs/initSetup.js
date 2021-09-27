@@ -1,18 +1,15 @@
-const Role  = require("../models/Role")
-const User = require("../models/User")
+import Role from "../models/Role"
+import User from "../models/User";
+import { ROLES } from "../models/Role";
 
 const createRoles = async () => {
   try {
     const count = await Role.estimatedDocumentCount();
     if (count > 0) return;
 
-    const values = await Promise.all([
-      new Role({ name: "conveyor" }).save(),
-      new Role({ name: "provider" }).save(),
-      new Role({ name: "admin" }).save(),
-    ]);
-
-    console.log(values);
+    Object.values(ROLES).forEach(rol => new Role({ name: rol }).save())
+    
+    console.log("Roles creados");
   } catch (error) {
     console.error(error);
   }
@@ -20,7 +17,7 @@ const createRoles = async () => {
 
 const createAdmin = async () => {
   const user = await User.findOne({ email: "admin@easycargo" });
-  const roles = await Role.find({ name: { $in: ["admin", "provider", "conveyor"] } });
+  const roles = await Role.find({ name: { $in: Object.keys(ROLES) } });
 
   if (!user) {
     await User.create({
@@ -32,6 +29,6 @@ const createAdmin = async () => {
     console.log('Admin User Created!')
   }
 };
-
+  
 createRoles() 
 createAdmin()

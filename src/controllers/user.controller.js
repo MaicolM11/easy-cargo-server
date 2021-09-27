@@ -1,16 +1,43 @@
 import User from "../models/User";
+import Role from "../models/Role"
+import { ROLES } from "../models/Role"
+import { CONVEYOR_STATUS } from "../models/User"
 
-
-// para que? - el mismo register?
 export const createUser = async (req, res) =>{
     
-    const { username, email, password, roles } = req.body
+    const { username, email, password, rol, description } = req.body
+    const rol_found = await Role.findOne({ name: rol.toUpperCase() });
 
-    const newUser = new User({username, email, password, roles})
+    if(!rol_found || rol_found.name == ROLES.ADMIN){
+        res.status(300).json({message:"rol not valid"})
+        return;
+    }
 
-    const savedUser = await newUser.save(); 
+    const newUser = new User({
+        username,
+        email,
+        password: await User.encryptPass(password),
+        roles: [rol_found._id],
+        description
+    });
 
-    res.status(201).json(savedUser);
+    if(ROLES.CONVEYOR == rol_found.name){
+        const {vehicle_type, loading_capacity, cc} = req.body
+        newUser.status = CONVEYOR_STATUS.AVAILABLE
+        newUser.vehicle_type = vehicle_type
+        newUser.loading_capacity = loading_capacity;
+        newUser.cc = cc;
+    }
+
+    if(ROLES.PROVIDER == rol_found.name){
+        const {nit, company_name, company_address } = req.body
+        newUser.nit = nit;
+        newUser.company_name = company_name
+        newUser.company_address = company_address
+    }
+
+    const savedUser = await newUser.save();     
+    res.status(201).json(savedUser)
 }
 
 export const getUsers = async (req, res) => {
