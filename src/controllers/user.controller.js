@@ -16,7 +16,7 @@ export const createUser = async (req, res) =>{
     const newUser = new User({
         username,
         email,
-        password: await User.encryptPass(password),
+        password: await User.encryptPass(password), 
         roles: [rol_found._id],
         description
     });
@@ -38,10 +38,22 @@ export const createUser = async (req, res) =>{
 
     const savedUser = await newUser.save();     
     res.status(201).json(savedUser)
+    module.exports = savedUser;
 }
 
 export const getUsers = async (req, res) => {
     await User.find();
+}
+
+export const findUser = async (req, res) =>{
+    const foundUser = await User.findOne({email: req.body.email}).populate('roles') 
+    if (!foundUser) return res.json({message: 'User not found'})
+
+    const matchPass = await User.comparePass(req.body.password, foundUser.password)
+
+    if (matchPass) return res.status(401).json({token: null, message: 'Invalid Password'}) 
+    
+    module.exports = foundUser;
 }
 
 export const getUserByID = async (req, res) => {
