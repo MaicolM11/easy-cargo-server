@@ -1,5 +1,3 @@
-import Role from "../models/Role"
-import User from "../models/User"
 import {createUser, savedUser, findUser, foundUser} from "./user.controller"
 
 const jwt = require('jsonwebtoken')

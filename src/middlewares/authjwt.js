@@ -42,3 +42,13 @@ export const isDriver = async (req, res, next) => {
 
     return res.status(403).json({message: 'Driver rol is required'})
 }
+
+export const isAdmin = async (req, res, next) => {
+    const user = await User.findById(req.userId)
+    const role = await Role.findById({_id: {$in: user.roles}})
+
+    console.log(role)
+    if(role.name === "ADMIN") next()
+
+    return res.status(403).json({message: 'Driver rol is required'})
+}
