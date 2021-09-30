@@ -12,7 +12,7 @@ export const createUser = async (req, res) =>{
         username,
         email,
         password: await User.encryptPass(password), 
-        roles: [rol_found._id],
+        roles: rol_found._id,
         description
     });
 
