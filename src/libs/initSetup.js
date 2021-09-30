@@ -17,14 +17,14 @@ const createRoles = async () => {
 
 const createAdmin = async () => {
   const user = await User.findOne({ email: "admin@easycargo" });
-  const roles = await Role.find({ name: { $in: Object.keys(ROLES) } });
+  const roles = await Role.findOne({ name: { $in: "ADMIN" } });
 
   if (!user) {
     await User.create({
       username: "admin",
       email: "admin@easycargo",
       password: await User.encryptPass("admin"),
-      roles: roles.map((role) => role._id),
+      roles: roles._id,
     });
     console.log('Admin User Created!')
   }

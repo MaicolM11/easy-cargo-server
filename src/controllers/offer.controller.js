@@ -2,18 +2,17 @@ import Offer from "../models/Offer";
 import Contract from "../models/Contract";
 
 export const createCargoOffer = async (req, res) => {
-    const { provider,  description, origin, destination, vehicle_type , weight, material, origin_address,
+    const { description, origin, destination, vehicle_type , weight, material, origin_address,
         destination_address} = req.body
 
-    if(!provider, !origin, !destination){
+    if(!origin, !destination){
         res.status(300).json({message: "Envie los campos requeridos"})
         return;
     } 
-
+ 
     // sacar el provider de la sesion
-
     const newOffer = new Offer({ 
-        provider, 
+        provider: req.userId, 
         description, 
         origin, 
         destination,
