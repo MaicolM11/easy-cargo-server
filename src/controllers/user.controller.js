@@ -3,7 +3,7 @@ import Role from "../models/Role"
 import { ROLES } from "../models/Role"
 import { CONVEYOR_STATUS } from "../models/User"
 
-export const createUser = async (req, res) =>{
+export const createUser = async (req, res) => {
     
     const { username, email, password, rol, description } = req.body
     const rol_found = await Role.findOne({ name: rol.toUpperCase() });
@@ -32,23 +32,22 @@ export const createUser = async (req, res) =>{
     }
 
     const savedUser = await newUser.save();     
-    res.status(201).json(savedUser)
-    module.exports = savedUser;
+    return savedUser;
 }
 
 export const getUsers = async (req, res) => {
     await User.find();
 }
 
-export const findUser = async (req, res) =>{
-    const foundUser = await User.findOne({email: req.body.email}).populate('roles') 
-    if (!foundUser) return res.json({message: 'User not found'})
-
-    const matchPass = await User.comparePass(req.body.password, foundUser.password)
-
-    if (!matchPass) return res.status(401).json({token: null, message: 'Invalid Password'}) 
-    
-    module.exports = foundUser;
+export const findUser = async (req, res) => {
+    try {
+        const foundUser = await User.findOne({email: req.body.email}).populate('roles')     
+        const matchPass = await User.comparePass(req.body.password, foundUser.password)
+        if (!matchPass) return res.status(401).json({token: null, message: 'Invalid Password'}) 
+        return foundUser;
+    } catch {
+        return res.json({message: 'User not found'})
+    } 
 }
 
 export const getUserByID = async (req, res) => {
