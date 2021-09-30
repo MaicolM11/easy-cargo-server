@@ -34,18 +34,27 @@ export const getCargoOffers = async (req, res) => {
     res.status(200).json(result)
 }
 
-export const getCargoOffersByID = (req, res) => {
-    
+export const getCargoOffersByID = async (req, res) => {
+    let result = await Offer.findById(req.params.offerId)
+    res.status(200).json(result)
 }
 
-export const removeCargoOffer = (req, res) => {
-    
+export const getCargoOffersByProvider = async (req, res) => {
+    let offers = Offer.find({provider: req.body.provider})
+    res.status(200).json(offers)
+}
+
+export const removeCargoOffer = async (req, res) => {
+    await Offer.findByIdAndDelete(req.params.offerId)
+    res.status(204);
 }
  
-export const editCargoOffer = (req, res) => {
-    
+export const editCargoOffer = async (req, res) => {
+    const offer = await Offer.findByIdAndUpdate(req.params.offerId, req.body,{
+        new: true
+    })
+    res.status(201).json(offer);
 }
-
 
 // CONTRACT
 export const acceptOffer = async (req, res) => {

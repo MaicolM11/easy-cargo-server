@@ -8,11 +8,6 @@ export const createUser = async (req, res) =>{
     const { username, email, password, rol, description } = req.body
     const rol_found = await Role.findOne({ name: rol.toUpperCase() });
 
-    if(!rol_found || rol_found.name == ROLES.ADMIN){
-        res.status(300).json({message:"rol not valid"})
-        return;
-    }
-
     const newUser = new User({
         username,
         email,
@@ -51,7 +46,7 @@ export const findUser = async (req, res) =>{
 
     const matchPass = await User.comparePass(req.body.password, foundUser.password)
 
-    if (matchPass) return res.status(401).json({token: null, message: 'Invalid Password'}) 
+    if (!matchPass) return res.status(401).json({token: null, message: 'Invalid Password'}) 
     
     module.exports = foundUser;
 }
