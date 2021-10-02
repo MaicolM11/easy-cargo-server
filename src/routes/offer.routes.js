@@ -10,7 +10,7 @@ const router = express.Router();
 router.post('/', [authjwt.verifyToken, authjwt.isProvider] , controller.createCargoOffer); // send user id
 router.put('/:offerID', [authjwt.verifyToken, authjwt.isProvider], controller.editCargoOffer);
 router.delete('/:offerID', [authjwt.verifyToken, authjwt.isProvider], controller.removeCargoOffer);
-router.get('/myoffers',[authjwt.isProvider, authjwt.verifyToken],controller.getCargoOffersByProvider)
+router.get('/myoffers',[authjwt.verifyToken, authjwt.isProvider],controller.getCargoOffersByProvider)
 
 // transportador
 router.put('/:offerID/accept', [authjwt.verifyToken, authjwt.isDriver], controller.acceptOffer);

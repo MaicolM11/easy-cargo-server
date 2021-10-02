@@ -39,7 +39,7 @@ export const getCargoOffersByID = async (req, res) => {
 }
 
 export const getCargoOffersByProvider = async (req, res) => {
-    let offers = Offer.find({provider: req.body.provider})
+    let offers = await Offer.find({provider: req.userId})
     res.status(200).json(offers)
 }
 
