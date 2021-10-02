@@ -10,7 +10,7 @@ router.post(
 );
 
 router.get(
-  "/",
+  '/',
   [authjwt.verifyToken, authjwt.isAdmin],
   userController.getUsers
 );

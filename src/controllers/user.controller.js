@@ -36,13 +36,16 @@ export const createUser = async (req, res) => {
 }
 
 export const getUsers = async (req, res) => {
-    await User.find();
+    let rol = req.query.role
+    const rol_found = await Role.findOne({ name: rol.toUpperCase() });
+    let data = await User.find({roles: rol_found._id }, 'username email loading_capacity vehicle_type cc status');
+    res.status(200).json(data)
 }
 
 export const findUser = async (req, res) => {
     const foundUser = await User.findOne({email: req.body.email}).populate('roles')  
     if(!foundUser)  {
-        res.json({message: 'User not found'})
+        res.status(400).json({message: 'User not found'})
         return false;
     }
     const matchPass = await User.comparePass(req.body.password, foundUser.password)

@@ -14,10 +14,10 @@ export const register = async (req, res) => {
  
 export const login = async (req, res) => {
     let foundUser = await findUser(req, res);
-    if(foundUser){
+    if(foundUser) {
         const token = jwt.sign({id: foundUser._id}, config.SECRET, {
             expiresIn: 86400
         })
-        res.status(200).json(token);
+        res.status(200).json({token: token, rol: foundUser.roles.name});
     }
 }
