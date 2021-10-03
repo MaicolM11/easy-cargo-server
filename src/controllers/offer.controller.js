@@ -76,3 +76,8 @@ export const acceptOffer = async (req, res) => {
     res.status(200).json(saveContract)
 
 }
+
+export const getOffersWithFilter = async (req, res)=> {
+    let offers = await Offer.find(req.query)
+    res.status(200).json(offers)
+}

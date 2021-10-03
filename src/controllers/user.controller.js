@@ -37,9 +37,15 @@ export const createUser = async (req, res) => {
 
 export const getUsers = async (req, res) => {
     let rol = req.query.role
-    const rol_found = await Role.findOne({ name: rol.toUpperCase() });
-    let data = await User.find({roles: rol_found._id }, 'username email loading_capacity vehicle_type cc status nit company_name company_address ');
-    res.status(200).json(data)
+    if(rol){
+        const rol_found = await Role.findOne({ name: rol.toUpperCase() });
+        if(rol_found){
+            let data = await User.find({roles: rol_found._id }, 'username email loading_capacity vehicle_type cc status nit company_name company_address ');
+            res.status(200).json(data)
+            return;    
+        }
+    }
+    res.status(400).json({message: "Rol no encontrado"})
 }
 
 export const findUser = async (req, res) => {

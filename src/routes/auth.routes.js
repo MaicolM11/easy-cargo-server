@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require('../controllers/auth.controller')
-const { authjwt, verifyReg } = require("../middlewares");
+const { verifyReg } = require("../middlewares");
 
 router.post("/login", controller.login);
 
