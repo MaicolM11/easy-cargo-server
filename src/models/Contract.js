@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-export const CONTRACT_STATUS = { ACTIVE: 'ACTIVE', CANCELLED: 'CANCELLED', FINISH: 'FINISH', WAITING: 'WAITING'}
+export const CONTRACT_STATUS = { ACTIVE: 'ACTIVE', CANCELLED: 'CANCELLED', FINISH: 'FINISH'}
 
 const contractSchema = mongoose.Schema(
   {
@@ -16,7 +16,7 @@ const contractSchema = mongoose.Schema(
 
       status: {
           type: String,
-          default: CONTRACT_STATUS.WAITING
+          default: CONTRACT_STATUS.ACTIVE
       }
 
   },

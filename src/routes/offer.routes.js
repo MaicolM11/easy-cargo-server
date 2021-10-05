@@ -13,6 +13,8 @@ router.get('/myoffers',[verifyToken, isProvider],controller.getCargoOffersByProv
 // transportador
 router.put('/:offerID/accept', [verifyToken, isDriver], controller.acceptOffer);
 
+router.get('/conveyor/search', [verifyToken, isDriver], controller.getContracts);
+
 //Todos
 router.get('/search', verifyToken, controller.getOffersWithFilter);
 router.get('/',verifyToken, controller.getCargoOffers);

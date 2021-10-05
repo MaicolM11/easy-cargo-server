@@ -1,5 +1,9 @@
 import Offer from "../models/Offer";
 import Contract from "../models/Contract";
+import User from "../models/User";
+
+import { OFFER_STATUS } from "../models/Offer";
+import { CONVEYOR_STATUS } from "../models/User";
 
 export const createCargoOffer = async (req, res) => {
     const { description, origin, destination, vehicle_type , weight, material, origin_address,
@@ -43,6 +47,12 @@ export const getCargoOffersByProvider = async (req, res) => {
     res.status(200).json(offers)
 }
 
+export const getContracts = async (req, res)=> {
+    req.query.conveyor = req.userId
+    let contracts = await Contract.find(req.query).populate('offer')
+    res.status(200).json(contracts)
+}
+
 export const removeCargoOffer = async (req, res) => {
     const user = await Offer.findByIdAndDelete(req.params.offerId)
     res.status(204).json(user);
@@ -59,21 +69,41 @@ export const editCargoOffer = async (req, res) => {
 export const acceptOffer = async (req, res) => {
 
     const { offerID } = req.params; 
-    const { conveyor } = req.body; // de la sesion
+    const conveyorID = req.userId;
 
     // revisar que el transportador este disponible
-    if(!offerID,  !conveyor){
-        res.status(300).json({message: "Envie los campos requqridos"})
+    if(!offerID,  !conveyorID){
+        res.status(400).json({message: "Envie los campos requeridos"})
         return;
     } 
 
+    const offer = await Offer.findById(offerID)
+    const conveyor = await User.findById(conveyorID)
+
+    if (!offer || !conveyor) {
+        res.status(404).json({message: "Datos incorrectos"})
+        return;
+    }
+
+    if(conveyor.status == CONVEYOR_STATUS.BUSY){
+        res.status(400).json({message: "Usted esta ocupado actualmente, no puede acceder a mas ofertas"})
+        return;
+    }
+
+    offer.status = OFFER_STATUS.IN_PROGRESS
+    await offer.save()
+
+    conveyor.status = CONVEYOR_STATUS.BUSY
+    await conveyor.save()
+
     let newContract = new Contract({
         offer: offerID,
-        conveyor,        
+        conveyorID,        
     })
      
     let saveContract = await newContract.save()
-    res.status(200).json(saveContract)
+    
+    res.status(200).json({message: "Contrato realizado!"})
 
 }
 

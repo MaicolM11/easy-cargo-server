@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-export const OFFER_STATUS = {AVAILABLE: 'AVAILABLE', NO_AVAILABLE:''}
+export const OFFER_STATUS = {AVAILABLE: 'AVAILABLE', IN_PROGRESS:'IN_PROGRESS', FINISH: 'FINISH'}
 
 const offerSchema = mongoose.Schema(
     {
