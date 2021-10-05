@@ -44,8 +44,8 @@ export const getCargoOffersByProvider = async (req, res) => {
 }
 
 export const removeCargoOffer = async (req, res) => {
-    await Offer.findByIdAndDelete(req.params.offerId)
-    res.status(204);
+    const user = await Offer.findByIdAndDelete(req.params.offerId)
+    res.status(204).json(user);
 }
  
 export const editCargoOffer = async (req, res) => {

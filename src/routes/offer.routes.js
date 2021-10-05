@@ -6,8 +6,8 @@ const { verifyToken, isProvider, isDriver } = require("../middlewares/authjwt");
 
 // proveedor 
 router.post('/', [verifyToken, isProvider] , controller.createCargoOffer); // send user id
-router.put('/:offerID', [verifyToken, isProvider], controller.editCargoOffer);
-router.delete('/:offerID', [verifyToken, isProvider], controller.removeCargoOffer);
+router.put('/:offerId', [verifyToken, isProvider], controller.editCargoOffer);
+router.delete('/:offerId', [verifyToken, isProvider], controller.removeCargoOffer);
 router.get('/myoffers',[verifyToken, isProvider],controller.getCargoOffersByProvider)
 
 // transportador
