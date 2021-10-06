@@ -15,4 +15,6 @@ router.get(
   userController.getUsers
 );
 
+router.get('/info', [authjwt.verifyToken, authjwt.isDriver], userController.getInfo)
+
 module.exports = router;

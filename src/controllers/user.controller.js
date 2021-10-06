@@ -78,3 +78,8 @@ export const editUser = async (req, res) => {
     })
     res.status(201).json(user);
 }
+
+export const getInfo = async (req, res) => {
+    const user = await User.findById(req.userId)
+    res.status(200).json(user)
+}  
