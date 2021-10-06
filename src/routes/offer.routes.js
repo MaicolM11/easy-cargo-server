@@ -6,19 +6,20 @@ const { verifyToken, isProvider, isDriver } = require("../middlewares/authjwt");
 
 // proveedor 
 router.post('/', [verifyToken, isProvider] , controller.createCargoOffer); // send user id
-router.put('/:offerId', [verifyToken, isProvider], controller.editCargoOffer);
-router.delete('/:offerId', [verifyToken, isProvider], controller.removeCargoOffer);
-router.get('/myoffers',[verifyToken, isProvider],controller.getCargoOffersByProvider)
+router.put('/:offerId', [verifyToken, isProvider], controller.editCargoOffer); //edit offer
+router.delete('/:offerId', [verifyToken, isProvider], controller.removeCargoOffer); //delete offer
+router.get('/myoffers',[verifyToken, isProvider],controller.getCargoOffersByProvider) //show my offers
 
 // transportador
 router.put('/:offerID/accept', [verifyToken, isDriver], controller.acceptOffer);
+router.get('/conveyor/search', [verifyToken, isDriver], controller.getConveyorContracts);
 
-router.get('/conveyor/search', [verifyToken, isDriver], controller.getContracts);
-
-//Todos
+//Todos 
 router.get('/search', verifyToken, controller.getOffersWithFilter);
 router.get('/',verifyToken, controller.getCargoOffers);
+router.put('/:offerId/terminate', verifyToken, controller.terminateOffer) //terminate offer
 
 // filtros
-
+router.get('/myoffers/search',[verifyToken, isProvider],controller.getOffersWithFilterByProvider)
+router.get('/myoffers/finished',[verifyToken, isProvider], controller.getProviderContracts)
 module.exports = router; 
