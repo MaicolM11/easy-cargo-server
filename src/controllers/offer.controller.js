@@ -138,7 +138,7 @@ export const terminateOffer = async (req, res) => {
   await offer.save();
 
   const contract = await Contract.find({
-      offer: offer._id
+      offer: offerId
   });
 
   contract.status = CONTRACT_STATUS.FINISH;
