@@ -5,7 +5,7 @@ const morgan = require('morgan')
 
 // Settings
 app.set("port", process.env.PORT || 3000);
-app.use(express.json());
+app.use(express.json()); 
 
 // Middlewares
 app.use(cors());

@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
-const uri = 'mongodb+srv://root:root@cluster-compartido.2xyps.mongodb.net/easy-cargo?retryWrites=true&w=majority'
+/*
+if(process.env.ROLE == "DEV") {
+  uri = 'mongodb+srv://root:root@cluster-compartido.2xyps.mongodb.net/easy-cargo?retryWrites=true&w=majority'
+} else{
+  uri = 'mongodb+srv://root:root@cluster-compartido.2xyps.mongodb.net/easy-cargo-test?retryWrites=true&w=majority'
+}*/
+let uri = 'mongodb+srv://root:root@cluster-compartido.2xyps.mongodb.net/easy-cargo?retryWrites=true&w=majority'
 
 mongoose.connect(uri, { 
     useNewUrlParser: true,
