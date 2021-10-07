@@ -156,12 +156,47 @@ export const terminateOffer = async (req, res) => {
 //Contracts
 export const getConveyorContracts = async (req, res)=> {
     req.query.conveyor = req.userId
-    let contracts = await Contract.find(req.query).populate('offer')
-    res.status(200).json(contracts)
+    let contracts = await Contract.find(req.query).populate('offer').populate('conveyor')
+  for (const key in contracts) {
+    contracts[key].provider = await contracts[key].offer.populate('provider')
+  }
+  res.status(200).json(contracts)
 }
 
 export const getProviderContracts = async (req, res)=> {
     req.query.provider = req.userId
     let contracts = await Contract.find(req.query).populate('offer').populate('conveyor')
     res.status(200).json(contracts)
+}
+
+export const getContracts = async (req, res)=> {
+  let contracts = await Contract.find(req.query).populate('offer').populate('conveyor')
+  for (const key in contracts) {
+    contracts[key].provider = await contracts[key].offer.populate('provider')
+  }
+  res.status(200).json(contracts)
+}
+
+export const cancelOffer = async (req, res)=>{
+  const { offerId } = req.params;
+
+  const offer = await Offer.findById(offerId);
+
+  offer.status = OFFER_STATUS.FINISH;
+  await offer.save();
+
+  const contract = await Contract.findOne({
+      offer: offerId
+  });
+
+  contract.status = CONTRACT_STATUS.CANCELLED;
+  await contract.save();
+
+  const conveyorId = contract.conveyor
+  
+  const conveyor = await User.findById(conveyorId);
+  conveyor.status = CONVEYOR_STATUS.AVAILABLE
+  await conveyor.save()
+  
+  res.status(200).json({ message: "Oferta Cancelada" });
 }

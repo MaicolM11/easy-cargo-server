@@ -18,6 +18,8 @@ router.get('/conveyor/search', [verifyToken, isDriver], controller.getConveyorCo
 router.get('/search', verifyToken, controller.getOffersWithFilter);
 router.get('/',verifyToken, controller.getCargoOffers);
 router.put('/:offerId/terminate', verifyToken, controller.terminateOffer) //terminate offer
+router.put('/:offerId/cancel', verifyToken, controller.cancelOffer) //Cancel Offer
+router.get('/contract', verifyToken, controller.getContracts) //Contracts by Query
 
 // filtros
 router.get('/myoffers/search',[verifyToken, isProvider],controller.getOffersWithFilterByProvider)

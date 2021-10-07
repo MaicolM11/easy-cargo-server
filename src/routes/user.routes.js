@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/user.controller");
 const { authjwt, verifyReg } = require("../middlewares");
+const { isProvider } = require("../middlewares/authjwt");
 
 router.post(
   "/create",
@@ -15,6 +16,6 @@ router.get(
   userController.getUsers
 );
 
-router.get('/info', [authjwt.verifyToken, authjwt.isDriver], userController.getInfo)
+router.get('/info', [authjwt.verifyToken], userController.getInfo)
 
 module.exports = router;
